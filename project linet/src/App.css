@@ -1,0 +1,165 @@
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: #000;
+  min-height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.fireworks-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.birthday-text {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #ff69b4;
+  text-transform: uppercase;
+  animation: float 3s ease-in-out infinite;
+  text-shadow: 
+    1px 1px 0 #ff1493,
+    2px 2px 0 #ff1493,
+    3px 3px 0 #ff1493,
+    4px 4px 0 #ff1493,
+    5px 5px 0 #ff1493,
+    6px 6px 0 #ff1493,
+    7px 7px 10px rgba(0, 0, 0, 0.4);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  z-index: 2;
+}
+
+.firework {
+  position: absolute;
+  width: 0.2rem;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 80%, transparent 100%);
+  animation: firework 2s infinite;
+}
+
+.floating-emoji {
+  position: fixed;
+  font-size: 2rem;
+  animation: floatUp linear forwards;
+  z-index: 1;
+}
+
+.press-me-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  background: linear-gradient(45deg, #ff69b4, #ff1493);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+}
+
+.press-me-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+}
+
+.lorem-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 600px;
+  z-index: 4;
+  animation: fadeIn 0.3s ease-out;
+  border: 2px solid #ff69b4;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    bottom: -50px;
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    bottom: 100vh;
+    opacity: 0;
+    transform: translateX(calc(sin(var(--random-offset, 0)) * 100px)) rotate(360deg);
+  }
+}
+
+/* Generate multiple firework positions */
+${[...Array(20)].map((_, i) => `
+.firework-${i} {
+  animation-delay: ${(i * 0.2)}s;
+  left: ${Math.random() * 100}vw;
+  top: ${Math.random() * 100}vh;
+  transform: scale(${0.5 + Math.random()});
+}`).join('\n')}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate3d(1, 1, 1, 0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate3d(1, 1, 1, 5deg);
+  }
+  100% {
+    transform: translateY(0) rotate3d(1, 1, 1, 0deg);
+  }
+}
+
+@keyframes firework {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff,
+      0 0 0 0 #fff;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+    box-shadow: 
+      -200px -200px 0 #ff0,
+      200px -200px 0 #f0f,
+      200px 200px 0 #0ff,
+      -200px 200px 0 #f00,
+      -300px 0 0 #ff0,
+      300px 0 0 #f0f,
+      0 300px 0 #0ff,
+      0 -300px 0 #f00;
+  }
+}
